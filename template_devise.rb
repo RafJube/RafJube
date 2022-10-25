@@ -172,8 +172,8 @@ after_bundle do
 
   # Yarn
   ########################################
-  run "yarn add bootstrap @popperjs/core"
-  append_file "app/javascript/application.js", <<~JS
+  run "yarn add stimulus bootstrap @popperjs/core"
+  append_file "app/javascript/packs/application.js", <<~JS
     import "bootstrap"
   JS
 
