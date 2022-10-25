@@ -176,6 +176,46 @@ after_bundle do
   append_file "app/javascript/packs/application.js", <<~JS
     import "bootstrap"
   JS
+  
+  # Stimulus controller setting
+  ########################################
+  run "mkdir app/javascript/controllers"
+  run "touch app/javascript/controllers/index.js"
+  run "touch app/javascript/controllers/hello_controller.js"
+  append_file "app/javascript/packs/application.js", <<~JS
+    import 'controllers'
+  JS
+  append_file "app/javascript/controllers/index.js", <<~JS
+    // Load all the controllers within this directory and all subdirectories. 
+    // Controller files must be named *_controller.js.
+
+    import { Application } from "stimulus"
+    import { definitionsFromContext } from "stimulus/webpack-helpers"
+
+    const application = Application.start()
+    const context = require.context(".", true, /\.js$/)
+    application.load(definitionsFromContext(context))
+  JS
+  append_file "app/javascript/controllers/hello_controller.js", <<~JS
+    // Visit The Stimulus Handbook for more details 
+    // https://stimulusjs.org/handbook/introduction
+    // 
+    // This example controller works with specially annotated HTML like:
+    //
+    // <div data-controller="hello">
+    //   <h1 data-target="hello.output"></h1>
+    // </div>
+
+    import { Controller } from "stimulus"
+
+    export default class extends Controller {
+      static targets = [ "output" ]
+
+      connect() {
+        this.outputTarget.textContent = 'Hello, Stimulus!'
+      }
+    }
+  JS
 
   # Heroku
   ########################################
