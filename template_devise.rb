@@ -12,10 +12,9 @@ inject_into_file "Gemfile", before: "group :development, :test do" do
 end
 
 inject_into_file "Gemfile", after: 'gem "byebug", platforms: %i[ mri mingw x64_mingw ]' do
-<<-RUBY
-
-  gem "dotenv-rails"
-RUBY
+  <<-RUBY
+    gem "dotenv-rails"
+  RUBY
 end
 
 gsub_file("Gemfile", '# gem "sassc-rails"', 'gem "sassc-rails"')
@@ -70,14 +69,6 @@ inject_into_file "app/views/layouts/application.html.erb", after: "<body>" do
     <%= render "shared/flashes" %>
   HTML
 end
-
-# Navbar correction
-########################################
-gsub_file(
-  "app/views/shared/_navbar.html.erb",
-  "<%= link_to 'Log out', destroy_user_session_path, data: { turbo_method: 'delete' }, class: 'dropdown-item' %>",
-  "<%= link_to 'Log out', destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item' %>"
-)
 
 # README
 ########################################
@@ -224,6 +215,14 @@ after_bundle do
       }
     }
   JS
+  
+  # Navbar correction
+  ########################################
+  gsub_file(
+    "app/views/shared/_navbar.html.erb",
+    "<%= link_to 'Log out', destroy_user_session_path, data: { turbo_method: 'delete' }, class: 'dropdown-item' %>",
+    "<%= link_to 'Log out', destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item' %>"
+  )
 
   # Heroku
   ########################################
