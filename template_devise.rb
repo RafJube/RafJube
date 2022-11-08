@@ -13,6 +13,7 @@ end
 
 inject_into_file "Gemfile", after: "gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]" do
   <<-RUBY
+  
     gem "dotenv-rails"
   RUBY
 end
