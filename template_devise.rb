@@ -11,7 +11,7 @@ inject_into_file "Gemfile", before: "group :development, :test do" do
   RUBY
 end
 
-inject_into_file "Gemfile", after: 'gem "byebug", platforms: %i[ mri mingw x64_mingw ]' do
+inject_into_file "Gemfile", after: gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]' do
   <<-RUBY
     gem "dotenv-rails"
   RUBY
@@ -220,7 +220,7 @@ after_bundle do
   ########################################
   gsub_file(
     "app/views/shared/_navbar.html.erb",
-    "<%= link_to 'Log out', destroy_user_session_path, data: { turbo_method: 'delete' }, class: 'dropdown-item' %>",
+    '<%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>',
     "<%= link_to 'Log out', destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item' %>"
   )
 
